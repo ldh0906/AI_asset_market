@@ -1,0 +1,24 @@
+# dependencies and build output
+node_modules/
+.next/
+out/
+dist/
+coverage/
+*.tsbuildinfo
+*.log
+
+# local secrets and service links
+.env
+.env.*
+!.env.example
+.vercel/
+
+# local runtime data and test artifacts
+.data/
+test-results/
+playwright-report/
+supabase/.temp/
+
+# operating system files
+.DS_Store
+Thumbs.db

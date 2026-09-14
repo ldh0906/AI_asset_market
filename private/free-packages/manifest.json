@@ -1,0 +1,60 @@
+[
+  {
+    "key": "design-starter",
+    "id": "20000000-0000-4000-8000-000000000001",
+    "title": "디자인 시작 패키지",
+    "order": "요구사항 정리 → 색상·타이포·구조 선택 → 화면 디자인",
+    "skills": [
+      "frontend-design",
+      "ui-ux-pro-max"
+    ],
+    "prompt": "어떤 화면을 만들지 사용자, 핵심 작업, 필요한 정보를 먼저 정리해 줘. 색상과 타이포를 선택한 뒤 화면 구조를 제안하고 구현해 줘.",
+    "fileName": "design-starter.zip",
+    "sha256": "8c59230041fcfe58e778fc309c975fe401380026a16ab8ae22dcfc15e3ea02dc",
+    "bytes": 1287538
+  },
+  {
+    "key": "landing-page",
+    "id": "20000000-0000-4000-8000-000000000002",
+    "title": "랜딩페이지 패키지",
+    "order": "제품 소개 구성 → 화면 제작 → 검색 노출 요소와 주요 동작 확인",
+    "skills": [
+      "frontend-design",
+      "seo-audit",
+      "webapp-testing"
+    ],
+    "prompt": "제품의 대상 사용자와 한 가지 핵심 행동을 정리하고 랜딩 화면을 제작해 줘. SEO 항목과 주요 버튼 동작을 점검해 줘.",
+    "fileName": "landing-page.zip",
+    "sha256": "dca0f698e708146df4f1b4c215ab99373c93bb6bef2e12f931ac346458641429",
+    "bytes": 94462
+  },
+  {
+    "key": "dashboard",
+    "id": "20000000-0000-4000-8000-000000000003",
+    "title": "대시보드 패키지",
+    "order": "지표·정보 구조 정리 → 차트·표·필터 구성 → 화면 동작 확인",
+    "skills": [
+      "ui-ux-pro-max",
+      "webapp-testing"
+    ],
+    "prompt": "어떤 결정을 위한 지표인지 정리하고 정보 구조, 차트, 표, 필터를 설계해 줘. 실제 브라우저에서 필터와 작은 화면을 확인해 줘.",
+    "fileName": "dashboard.zip",
+    "sha256": "329f4cacc6f82929fff3f4414d89739a99338d888791da5b2621a6257131b400",
+    "bytes": 1292024
+  },
+  {
+    "key": "portfolio",
+    "id": "20000000-0000-4000-8000-000000000004",
+    "title": "포트폴리오 패키지",
+    "order": "개인·브랜드 분위기 선택 → 작품 소개 화면 구성 → 반응형·링크 확인",
+    "skills": [
+      "theme-factory",
+      "frontend-design",
+      "webapp-testing"
+    ],
+    "prompt": "내 작업의 분위기와 대표 작품을 정리해 포트폴리오 화면을 만들어 줘. 작은 화면과 모든 링크를 확인해 줘.",
+    "fileName": "portfolio.zip",
+    "sha256": "3446583db5eb8d0bb09ff332a493f867b1fc69b8cdb8843248b4578ecb948ed7",
+    "bytes": 311680
+  }
+]

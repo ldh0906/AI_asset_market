@@ -1,0 +1,57 @@
+import { test, expect } from '@playwright/test';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+const manifest = JSON.parse(readFileSync(path.resolve('private/free-packages/manifest.json'), 'utf8')) as { key: string; id: string; title: string; sha256: string }[];
+const origin = 'http://127.0.0.1:3100';
+
+test('free package browse, claim, persistence, and exact ZIP download', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', e => errors.push(e.message));
+  await page.goto('/');
+  await expect(page.locator('.feature-card')).toHaveCount(4);
+  await page.getByRole('textbox', { name: '검색' }).fill('랜딩페이지');
+  await page.getByRole('combobox', { name: '용도' }).selectOption('랜딩페이지');
+  await page.getByRole('combobox', { name: '가격' }).selectOption('free');
+  await expect(page.locator('.product-row')).toHaveCount(1);
+  await page.getByRole('link', { name: '상세보기' }).scrollIntoViewIfNeeded();
+  const previousScroll = await page.evaluate(() => window.scrollY);
+  await page.getByRole('link', { name: '상세보기' }).click();
+  await expect(page).toHaveURL(/\/products\//);
+  const target = manifest.find(p => p.key === 'landing-page')!;
+  await expect(page.getByRole('heading', { name: target.title, exact: true })).toBeVisible();
+  await page.goBack();
+  await expect(page.getByRole('textbox', { name: '검색' })).toHaveValue('랜딩페이지');
+  await expect(page.getByRole('combobox', { name: '용도' })).toHaveValue('랜딩페이지');
+  await expect(page.locator('.product-row')).toHaveCount(1);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThanOrEqual(Math.max(0, previousScroll - 20));
+  await page.goForward();
+  await expect(page.getByRole('heading', { name: target.title, exact: true })).toBeVisible();
+  const denied = await page.request.get(`/api/market/download/${target.id.replace(/^2/, '3')}`);
+  expect(denied.status()).toBe(401);
+  await page.getByRole('button', { name: '무료로 받기' }).click();
+  await page.getByRole('dialog', { name: '로그인하고 계속하기' }).getByRole('button', { name: '판매자 하나' }).click();
+  await expect(page.getByRole('link', { name: '보관함에서 보기' })).toBeVisible();
+  const versionId = target.id.replace(/^2/, '3');
+  const repeated = await page.request.post('/api/market/free/claim', { headers: { Origin: origin }, data: { versionId } });
+  expect(repeated.ok(), await repeated.text()).toBeTruthy();
+  const workspace = await (await page.request.get('/api/market/workspace')).json();
+  expect(workspace.freeClaims.filter((c: { versionId: string }) => c.versionId === versionId)).toHaveLength(1);
+  const file = await page.request.get(`/api/market/download/${versionId}`);
+  expect(file.ok(), await file.text()).toBeTruthy();
+  const bytes = await file.body();
+  expect(bytes.subarray(0, 2).toString()).toBe('PK');
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe(target.sha256);
+  await page.reload();
+  await expect(page.getByRole('link', { name: '보관함에서 보기' })).toBeVisible();
+  expect(errors).toEqual([]);
+});
+
+test('mobile catalogue and detail do not overflow', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/');
+  await expect(page.locator('.feature-card')).toHaveCount(4);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.locator('.feature-card').first().getByRole('link').first().click();
+  await expect(page.locator('.purchase-bar')).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+});
