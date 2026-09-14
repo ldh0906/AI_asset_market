@@ -4,6 +4,8 @@
 
 ### 검증된 AI Skill과 문서를 찾고, 시험 근거를 비교하고, 안전하게 거래하는 마켓플레이스
 
+🌐 **Vercel 배포 사이트:** [https://ai-asset-market.vercel.app](https://ai-asset-market.vercel.app)
+
 [![배포](https://img.shields.io/badge/Live_Demo-ai--asset--market.vercel.app-4B305A?style=for-the-badge)](https://ai-asset-market.vercel.app/demo)
 [![거래 데모](https://img.shields.io/badge/거래_안전성-직접_체험-ADD8F0?style=for-the-badge&labelColor=4B305A)](https://ai-asset-market.vercel.app/demo/transactions)
 [![CI](https://github.com/ldh0906/AI_asset_market/actions/workflows/ci.yml/badge.svg)](https://github.com/ldh0906/AI_asset_market/actions/workflows/ci.yml)
